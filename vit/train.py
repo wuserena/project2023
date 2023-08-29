@@ -156,7 +156,6 @@ def main(args):
     torch.save(best_model.state_dict(), "./natural-weight/bestmodel-{}.pth".format(i))
     print("the best model:model-{}".format(i))
 
-    #x = range(args.epochs)
     x = range(len(train_loss_list))
 
     plt.figure()
@@ -199,7 +198,7 @@ if __name__ == '__main__':
 
     #Early Stopping
     parser.add_argument('--early_stop', type=bool, default=True)
-    parser.add_argument('--patience', type=int, default=15)
+    parser.add_argument('--patience', type=int, default=10)
     parser.add_argument('--verbose', type=bool, default=False) #If True, prints a message for each validation loss improvement
 
     opt = parser.parse_args()
