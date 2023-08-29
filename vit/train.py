@@ -7,10 +7,12 @@ import torch.optim as optim
 import torch.optim.lr_scheduler as lr_scheduler
 from torchvision import transforms
 import matplotlib.pyplot as plt
+from timm.data.mixup import Mixup
 
 from my_dataset import MyDataSet
 from vit_model import vit_base_patch16_224_in21k as create_model
 from utils import read_split_data, train_one_epoch, evaluate
+from earlystopping import EarlyStopping
 
 train_loss_list, train_acc_list = [], []
 val_loss_list, val_acc_list = [], []
@@ -21,7 +23,7 @@ def main(args):
 
     if os.path.exists("./weights") is False:
         os.makedirs("./weights")
-    
+
     best_acc = 0.01
 
     train_images_path, train_images_label, val_images_path, val_images_label = read_split_data(args.data_path)
@@ -29,8 +31,11 @@ def main(args):
     data_transform = {
         "train": transforms.Compose([transforms.RandomResizedCrop(224),
                                      transforms.RandomHorizontalFlip(),
+                                     #transforms.RandAugment(),
                                      transforms.ToTensor(),
-                                     transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])]),
+                                     transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5]),
+                                     #transforms.RandomErasing()
+                                     ]),
         "val": transforms.Compose([transforms.Resize(256),
                                    transforms.CenterCrop(224),
                                    transforms.ToTensor(),
@@ -62,7 +67,16 @@ def main(args):
                                              pin_memory=True,
                                              num_workers=nw,
                                              collate_fn=val_dataset.collate_fn)
-    
+
+    mixup_fn = Mixup(mixup_alpha= 1.0,
+                cutmix_alpha = 0.2,
+                cutmix_minmax = None,
+                prob = 1.0,
+                switch_prob = 0.,
+                mode = 'batch',
+                label_smoothing = 0,
+                num_classes = args.num_classes)
+
     model = create_model(num_classes=args.num_classes, has_logits=False).to(device)
 
     if args.weights != "":
@@ -94,8 +108,17 @@ def main(args):
     lf = lambda x: ((1 + math.cos(x * math.pi / args.epochs)) / 2) * (1 - args.lrf) + args.lrf  # cosine
     scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
 
+    early_stopping = EarlyStopping(patience=args.patience, verbose=args.verbose)
+
     for epoch in range(args.epochs):
         # train
+        '''
+        for data in enumerate(train_dataset):
+            img, label = data
+            for img, label in train_loader:
+                img, label =  mixup_fn(img, label)
+            break
+        '''
         train_loss, train_acc = train_one_epoch(model=model,
                                                 optimizer=optimizer,
                                                 data_loader=train_loader,
@@ -114,16 +137,27 @@ def main(args):
         val_loss_list.append(val_loss)
         val_acc_list.append(val_acc)
 
-        torch.save(model.state_dict(), "./flower-weight/model-{}.pth".format(epoch))
+        #torch.save(model.state_dict(), "./natural-weight/model-{}.pth".format(epoch))
+        path = "./natural-weight/model-{}.pth".format(epoch)
         if val_acc > best_acc:
             best_acc = val_acc
             i = epoch
             best_model = model
 
-    torch.save(model.state_dict(), "./flower-weight/bestmodel-{}.pth".format(i))
+        if args.early_stop:
+            early_stopping(val_loss, model, save_path=path)
+
+            if early_stopping.early_stop:
+                print("Early stopping")
+                break
+        else:
+            torch.save(model.state_dict(), path)
+
+    torch.save(best_model.state_dict(), "./natural-weight/bestmodel-{}.pth".format(i))
     print("the best model:model-{}".format(i))
 
-    x = range(args.epochs)
+    #x = range(args.epochs)
+    x = range(len(train_loss_list))
 
     plt.figure()
     plt.plot(x, train_loss_list, label = 'train', color = 'royalblue')
@@ -144,24 +178,29 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--num_classes', type=int, default=5)
+    parser.add_argument('--num_classes', type=int, default=2)
     parser.add_argument('--epochs', type=int, default=100)
-    parser.add_argument('--batch-size', type=int, default=128)
+    parser.add_argument('--batch-size', type=int, default=48)
     parser.add_argument('--lr', type=float, default=0.001)
     parser.add_argument('--lrf', type=float, default=0.01)
 
     # 数据集所在根目录
     # https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz
     parser.add_argument('--data-path', type=str,
-                        default="/home/jacob/Documents/data/flower_photos")
+                        default="D:/Serena/project/real_vs_fake_dataset/train")
     parser.add_argument('--model-name', default='', help='create model name')
 
     # 预训练权重路径，如果不想载入就设置为空字符
-    parser.add_argument('--weights', type=str, default='/home/jacob/Documents/pythonfile/practice/vision transformer/vit_large_patch16_224_in21k.pth',
+    parser.add_argument('--weights', type=str, default='D:/Serena/project/vision_transformer/real-vs-fake/base/test1-bestmodel-49.pth',
                         help='initial weights path')
     # 是否冻结权重
-    parser.add_argument('--freeze-layers', type=bool, default=True)
+    parser.add_argument('--freeze-layers', type=bool, default=False)
     parser.add_argument('--device', default='cuda:0', help='device id (i.e. 0 or 0,1 or cpu)')
+
+    #Early Stopping
+    parser.add_argument('--early_stop', type=bool, default=True)
+    parser.add_argument('--patience', type=int, default=15)
+    parser.add_argument('--verbose', type=bool, default=False) #If True, prints a message for each validation loss improvement
 
     opt = parser.parse_args()
 
