@@ -5,7 +5,7 @@ from PIL import Image
 
 import torch
 import torch.optim as optim
-from torch.utils.tensorboard import SummaryWriter
+
 from torchvision import transforms
 from timm.data.mixup import Mixup
 
@@ -79,7 +79,6 @@ def main(args):
                     label_smoothing = 0,
                     num_classes = args.num_classes)
     '''
-    
     model = create_model(num_classes=args.num_classes).to(device)
 
     if args.weights != "":
@@ -104,7 +103,7 @@ def main(args):
 
     for epoch in range(args.epochs):
         # train
-        ''' 
+        '''
         for data in enumerate(train_dataset):
             img, label = data
             for img, label in train_loader:
@@ -129,8 +128,8 @@ def main(args):
 
         torch.save({'model_state_dict':model.state_dict()}, "D:/Serena/project/natural sence/model-{}.pth".format(epoch))
 
-        if val_acc > best_acc:
-            best_acc = val_acc
+        if val_loss < lowest_loss:
+            lowest_loss = val_loss
             i = epoch
             best_model = model
 
@@ -170,7 +169,7 @@ if __name__ == '__main__':
                         default="D:/Serena/project/natural scene_data set/seg_train/seg_train")
 
     # 预训练权重路径，如果不想载入就设置为空字符
-    parser.add_argument('--weights', type=str, default="D:/Serena/project/natural scene/test1-bestmodel-37.pth",
+    parser.add_argument('--weights', type=str, default="D:/Serena/project/swin_transformer/natural scene/test1-bestmodel-37.pth",
                         help='initial weights path')
     # 是否冻结权重
     parser.add_argument('--freeze-layers', type=bool, default=True)
