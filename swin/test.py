@@ -43,7 +43,8 @@ def main():
     test_loss, test_acc = evaluate(model=model,
                                      data_loader=val_loader,
                                      device=device,
-                                     epoch=1)
+                                     epoch=1,
+                                     valid=False)
     print('loss = {}'.format(test_loss))
     print('accuracy = {}'.format(test_acc))
 
