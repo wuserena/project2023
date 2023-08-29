@@ -18,13 +18,11 @@ val_loss_list, val_acc_list = [], []
 
 
 def main(args):
-    best_acc = 0.1
+    lowest_loss = 1
     device = torch.device(args.device if torch.cuda.is_available() else "cpu")
 
     if os.path.exists("./weights") is False:
         os.makedirs("./weights")
-
-    tb_writer = SummaryWriter()
 
     train_images_path, train_images_label, val_images_path, val_images_label = read_split_data(args.data_path)
 
@@ -71,7 +69,7 @@ def main(args):
                                              pin_memory=True,
                                              num_workers=nw,
                                              collate_fn=val_dataset.collate_fn)
-
+    '''
     mixup_fn = Mixup(mixup_alpha= 1.0,
                     cutmix_alpha = 0.2,
                     cutmix_minmax = None,
@@ -81,17 +79,7 @@ def main(args):
                     label_smoothing = 0,
                     num_classes = args.num_classes)
     '''
-    img, label = train_dataset[0]
-    for img, label in val_loader:
-        img, label =  mixup_fn(img, label)
-
-    for data in enumerate(data_loader):
-        images, labels = data
-        img, label =  mixup_fn(img, label)
-    '''
-
-
-
+    
     model = create_model(num_classes=args.num_classes).to(device)
 
     if args.weights != "":
@@ -116,7 +104,7 @@ def main(args):
 
     for epoch in range(args.epochs):
         # train
-        '''
+        ''' 
         for data in enumerate(train_dataset):
             img, label = data
             for img, label in train_loader:
@@ -138,13 +126,6 @@ def main(args):
                                      epoch=epoch)
         val_loss_list.append(val_loss)
         val_acc_list.append(val_acc)
-
-        tags = ["train_loss", "train_acc", "val_loss", "val_acc", "learning_rate"]
-        tb_writer.add_scalar(tags[0], train_loss, epoch)
-        tb_writer.add_scalar(tags[1], train_acc, epoch)
-        tb_writer.add_scalar(tags[2], val_loss, epoch)
-        tb_writer.add_scalar(tags[3], val_acc, epoch)
-        tb_writer.add_scalar(tags[4], optimizer.param_groups[0]["lr"], epoch)
 
         torch.save({'model_state_dict':model.state_dict()}, "D:/Serena/project/natural sence/model-{}.pth".format(epoch))
 
