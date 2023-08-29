@@ -151,7 +151,7 @@ def train_one_epoch(model, optimizer, data_loader, device, epoch):
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, device, epoch):
+def evaluate(model, data_loader, device, epoch, valid=True):
     loss_function = torch.nn.CrossEntropyLoss()
 
     model.eval()
@@ -172,7 +172,12 @@ def evaluate(model, data_loader, device, epoch):
         loss = loss_function(pred, labels.to(device))
         accu_loss += loss
 
-        data_loader.desc = "[valid epoch {}] loss: {:.3f}, acc: {:.3f}".format(epoch,
+        if valid:
+            func = "valid"
+        else:
+            func = "test"
+
+        data_loader.desc = "[{} epoch {}] loss: {:.3f}, acc: {:.3f}".format(func, epoch,
                                                                                accu_loss.item() / (step + 1),
                                                                                accu_num.item() / sample_num)
 
