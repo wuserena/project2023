@@ -24,7 +24,7 @@ def main(args):
     if os.path.exists("./weights") is False:
         os.makedirs("./weights")
 
-    best_acc = 0.01
+    lowest_loss = 1.0
 
     train_images_path, train_images_label, val_images_path, val_images_label = read_split_data(args.data_path)
 
@@ -139,8 +139,8 @@ def main(args):
 
         #torch.save(model.state_dict(), "./natural-weight/model-{}.pth".format(epoch))
         path = "./natural-weight/model-{}.pth".format(epoch)
-        if val_acc > best_acc:
-            best_acc = val_acc
+        if val_loss > lowest_loss:
+            lowest_loss = val_loss
             i = epoch
             best_model = model
 
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     parser.add_argument('--freeze-layers', type=bool, default=False)
     parser.add_argument('--device', default='cuda:0', help='device id (i.e. 0 or 0,1 or cpu)')
 
-    #Early Stopping
+    # Early Stopping
     parser.add_argument('--early_stop', type=bool, default=True)
     parser.add_argument('--patience', type=int, default=10)
     parser.add_argument('--verbose', type=bool, default=False) #If True, prints a message for each validation loss improvement
