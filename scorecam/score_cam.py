@@ -1,7 +1,7 @@
 import torch
 import tqdm
 from base_cam import BaseCAM
-
+from utils.model_targets import ClassifierOutputTarget
 
 class ScoreCAM(BaseCAM):
     def __init__(
@@ -48,6 +48,12 @@ class ScoreCAM(BaseCAM):
                 BATCH_SIZE = 16
 
             scores = []
+            
+            targets_element = targets[0]
+            if isinstance(targets_element, int):
+                targets = [ClassifierOutputTarget(
+                category) for category in targets]
+            
             for target, tensor in zip(targets, input_tensors):
                 for i in tqdm.tqdm(range(0, tensor.size(0), BATCH_SIZE)):
                     batch = tensor[i: i + BATCH_SIZE, :]
