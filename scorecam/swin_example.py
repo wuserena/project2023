@@ -111,9 +111,10 @@ if __name__ == '__main__':
     # AblationCAM and ScoreCAM have batched implementations.
     # You can override the internal batch size for faster computation.
     cam.batch_size = 32
+    targets = None #None: for eval labal, or int: for class indices
 
     grayscale_cam = cam(input_tensor=input_tensor,
-                        targets=None,
+                        targets=targets,
                         eigen_smooth=args.eigen_smooth,
                         aug_smooth=args.aug_smooth)
 
