@@ -2,7 +2,7 @@
 Last year, ChatGPT successfully captured public attention, and now we are anticipating the arrival of the next generation. Our research analyzes two Transformer-based backbones, Vision Transformer and Swin Transformer, o identify the optimal architecture for computer vision tasks. We aim to demonstrate how Transformers can be applied to vision problems and to understand the reasoning behind the network’s decisions.
 
 ## Project Page
-Please visit our project page! It documents our learning process, the challenges we encountered, and how we addressed them. We hope you enjoy exploring it.
+Please visit our project page! It documents our learning process, the challenges we encountered, and how we addressed them. We hope you enjoy exploring it.\
 [Comparison and Analysis of Vision Transformer Variants](https://sites.google.com/view/project666/home)
 
 ## System Environment  
