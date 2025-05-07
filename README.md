@@ -30,5 +30,5 @@ Please visit our project page! It documents our learning process, the challenges
 
 |               | **Swin**        | **ViT**         |
 |---------------|----------------|-----------------|
-| **Grad-CAM**  | ![](assets/img1.png) | ![](assets/img2.png) |
-| **Score-CAM** | ![](assets/img3.png) | ![](assets/img4.png) |
+| **Grad-CAM**  | ![](assets/swin_616_gradcam.jpg) | ![](assets/vit_616_None_gradcam_cam.jpg) |
+| **Score-CAM** | ![](assets/swin_616_scorecam.jpg) | ![](assets/vit_616_None_scorecam_cam.jpg) |
