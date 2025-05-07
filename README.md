@@ -25,7 +25,6 @@ Please visit our project page! It documents our learning process, the challenges
 * SorceCam
    * original code: https://github.com/jacobgil/pytorch-grad-cam/blob/master/tutorials/vision_transformers.md
 
-## Result
 ## Visualization Results
 
 |               | **Swin**        | **ViT**         |
