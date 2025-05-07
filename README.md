@@ -10,15 +10,25 @@ Please visit our project page! It documents our learning process, the challenges
    * Pytorch 2.0.1
    * CUDA 11.7
 
-* Swin Transformer
-  * microsoft: https://github.com/microsoft/Swin-Transformer
-  * original code: https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/swin_transformer
+## Vision Transformer Variants
 * Vision Transformer
   * original code: https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/vision_transformer
   * early stopping code from: https://github.com/Bjarten/early-stopping-pytorch/tree/master
+* Swin Transformer
+  * microsoft: https://github.com/microsoft/Swin-Transformer
+  * original code: https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/swin_transformer
+
+ 
+## Visualization tools
 * GradCam
    * original code: https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/grad_cam
 * SorceCam
    * original code: https://github.com/jacobgil/pytorch-grad-cam/blob/master/tutorials/vision_transformers.md
 
+## Result
+## Visualization Results
 
+|               | **Swin**        | **ViT**         |
+|---------------|----------------|-----------------|
+| **Grad-CAM**  | ![](assets/img1.png) | ![](assets/img2.png) |
+| **Score-CAM** | ![](assets/img3.png) | ![](assets/img4.png) |
