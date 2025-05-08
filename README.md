@@ -25,8 +25,11 @@ Grad-CAM and Score-CAM are visualization techniques that help us understand how 
 Our implementation is based on the excellent tutorial provided in [jacobgil/pytorch-grad-cam](https://github.com/jacobgil/pytorch-grad-cam/blob/master/tutorials/vision_transformers.md)
 
 ## Visualization Results
+The heatmaps below show which parts of the image the models focus on, using Grad-CAM and Score-CAM for both the Swin Transformer and Vision Transformer
 
 |               | **Swin**        | **ViT**         |
 |---------------|----------------|-----------------|
 | **Grad-CAM**  | ![](assets/swin_616_gradcam.jpg) | ![](assets/vit_616_None_gradcam_cam.jpg) |
 | **Score-CAM** | ![](assets/swin_616_scorecam.jpg) | ![](assets/vit_616_None_scorecam_cam.jpg) |
+
+We found that Swin Transformer shows better localization consistency across both Grad-CAM and Score-CAM, while Vision Transformer tends to produce more scattered feature maps. Also, Grad-CAM adds more noise in the background, while Score-CAM gives a cleaner and more accurate focus.
