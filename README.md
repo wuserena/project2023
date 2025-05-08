@@ -11,15 +11,18 @@ Please visit our project page! It documents our learning process, the challenges
    * CUDA 11.7
 
 ## Vision Transformer Variants
-* Vision Transformer
+* Vision Transformer\
+The Vision Transformer (ViT) is a model that splits an image into small patches and processes them as a sequence, allowing the model to focus on information from different parts of the image. This approach also removes the fixed input size constraint typically found in traditional convolutional neural networks.
   * original code: https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/vision_transformer
   * early stopping code from: https://github.com/Bjarten/early-stopping-pytorch/tree/master
-* Swin Transformer
+* Swin Transformer\
+The Swin Transformer is an improved version of ViT that uses a Shifted Window mechanism to process images. This technique helps the model better capture information from various regions of the image while reducing computational and memory costs.
   * microsoft: https://github.com/microsoft/Swin-Transformer
   * original code: https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/swin_transformer
 
  
 ## Visualization tools
+Grad-CAM and Score-CAM are visualization techniques that help us understand how neural networks make decisions and which parts of the image they focus on.
 * GradCam
    * original code: https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/grad_cam
 * SorceCam
