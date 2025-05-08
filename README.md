@@ -22,7 +22,7 @@ Example code: [GitHub - WZMIAOMIAO Swin](https://github.com/WZMIAOMIAO/deep-lear
  
 ## Visualization tools
 Grad-CAM and Score-CAM are visualization techniques that help us understand how neural networks make decisions and which parts of the image they focus on.
-Our implementation is based on the excellent tutorial provided in [jacobgil/pytorch-grad-cam](original code: https://github.com/jacobgil/pytorch-grad-cam/blob/master/tutorials/vision_transformers.md)
+Our implementation is based on the excellent tutorial provided in [jacobgil/pytorch-grad-cam](https://github.com/jacobgil/pytorch-grad-cam/blob/master/tutorials/vision_transformers.md)
 
 ## Visualization Results
 
