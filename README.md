@@ -12,12 +12,12 @@ Please visit our project page! It documents our learning process, the challenges
 
 ## Vision Transformer Variants
 * Vision Transformer\
-The Vision Transformer (ViT) is a model that splits an image into small patches and processes them as a sequence, allowing the model to focus on information from different parts of the image. This approach also removes the fixed input size constraint typically found in traditional convolutional neural networks.
+The Vision Transformer (ViT) is a model that splits an image into small patches and processes them as a sequence, allowing the model to focus on information from different parts of the image. This approach also removes the fixed input size constraint typically found in traditional convolutional neural networks.\
 Our implementation is based on the [GitHub - WZMIAOMIAO ViT](https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/vision_transformer). Many thanks to the author for their excellent work!
 
 * Swin Transformer\
-The Swin Transformer is an improved version of ViT that uses a Shifted Window mechanism to process images. This technique helps the model better capture information from various regions of the image while reducing computational and memory costs.
-Official implementation: [GitHub - Swin Transformer (Microsoft)](https://github.com/microsoft/Swin-Transformer)
+The Swin Transformer is an improved version of ViT that uses a Shifted Window mechanism to process images. This technique helps the model better capture information from various regions of the image while reducing computational and memory costs.\
+Official implementation: [GitHub - Swin Transformer (Microsoft)](https://github.com/microsoft/Swin-Transformer)\
 Example code: [GitHub - WZMIAOMIAO Swin](https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/tree/master/pytorch_classification/swin_transformer)
  
 ## Visualization tools
